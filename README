@@ -2,5 +2,5 @@
 
 
 para compilar las apps
-gcc  -lrt  -lpthread -o alsa_slave alsa_slave.c -lasound
+gcc  -lrt  -lpthread -o alsa_slave alsa_slave.c -lasound -lm
 
