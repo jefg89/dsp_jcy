@@ -13,13 +13,11 @@ DEPS = goertzel.h
 all: slave master
 
 slave: $(SRCS) $(DEPS)
-	#$(CC) -c $(SRCS)
 	$(CC) -o $(APPS) $(SRCS) $(LIB)
 	clear
 	@echo "Compilación Exitosa!!" 
 
 master: $(SRCM)
-	#$(CC) -c $(SRCS)
 	$(CC) -o $(APPM) $(SRCM) $(LIB)
 	clear
 	@echo "Compilación Exitosa!!" 
