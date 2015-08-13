@@ -1,20 +1,22 @@
 #include <alsa/asoundlib.h>
 #include <alsa/pcm.h>
 #include <math.h>
-#define BUFFER_LEN 88200//44100
+#include <omp.h>
+#define BUFFER_LEN 44100//44100
 
 static char *device = "default";                       //soundcard
 snd_output_t *output = NULL;
 float buffer [BUFFER_LEN];
 
+void gen_tones(int buffer_size, int digit, int Fs, float* input);
 
 int main(void)
 {
     int err;
     int j,k;
-
-    int f = 440;                //frequency
-    int fs = 44100;             //sampling frequency
+    
+    int Fs = 44100;             //sampling frequency
+    int digit = 2;
 
     snd_pcm_t *handle;
     snd_pcm_sframes_t frames;
@@ -31,7 +33,7 @@ int main(void)
                                   SND_PCM_FORMAT_FLOAT,
                                   SND_PCM_ACCESS_RW_INTERLEAVED,
                                   1,
-                                  fs,
+                                  Fs,
                                   1,
                                   500000)) < 0) {   
             printf("Playback open error: %s\n", snd_strerror(err));
@@ -40,13 +42,7 @@ int main(void)
 
     }
 
-    // SINE WAVE
-    printf("Sine tone at %dHz ",f);
-
-        for (k=0; k<BUFFER_LEN; k++){
-
-            buffer[k] = (sin(2*M_PI*f/fs*k));                 //sine wave value generation                        
-            }       
+        gen_tones(BUFFER_LEN, digit, Fs, buffer);   
 
         for (j=0; j<1; j++){
             frames = snd_pcm_writei(handle, buffer, BUFFER_LEN);    //sending values to sound driver
@@ -55,4 +51,67 @@ int main(void)
     snd_pcm_close(handle);
     return 0;
 
+}
+
+void gen_tones(int buffer_size, int digit, int Fs, float* input)
+{
+	float freq_up, freq_down;
+	switch ( digit ) {
+        case 0:
+            freq_up = 1336; freq_down = 941;  
+            break;
+        case 1:
+			freq_up = 1209; freq_down = 697;         
+            break;
+        case 2:          
+            freq_up = 1336; freq_down = 697;
+            break;
+        case 3:         
+            freq_up = 1477; freq_down = 697;
+            break;
+        case 4:        
+            freq_up = 1209; freq_down = 770;
+            break;
+        case 5:        
+            freq_up = 1336; freq_down = 770;
+            break;
+        case 6:        
+            freq_up = 1477; freq_down = 770;
+            break;
+        case 7:        
+            freq_up = 1209; freq_down = 852;
+            break;
+        case 8:        
+            freq_up = 1336; freq_down = 852;
+            break;
+        case 9:        
+            freq_up = 1477; freq_down = 852;
+            break;
+        case 10:   /* A */ 
+            freq_up = 1633; freq_down = 697;
+            break;
+        case 11:   /* B */     
+            freq_up = 1633; freq_down = 770;
+            break;
+        case 12:   /* C */     
+            freq_up = 1633; freq_down = 852;
+            break; 
+        case 13:   /* D */    
+            freq_up = 1333; freq_down = 941;
+            break;
+        case 14:   /* * */    
+            freq_up = 1209; freq_down = 941;
+            break;
+        case 15:   /* # */      
+            freq_up = 1477; freq_down = 941;
+            break;
+        default:   /*Any*/       
+            freq_up = 0; freq_down = 0;
+            break;
+    }
+    int i;
+    #pragma omp parallel for
+	for(i=0;i<buffer_size;i++){
+		input[i] = sin(2.0*M_PI*freq_down*i/Fs) + sin(2.0*M_PI*freq_up*i/Fs);
+	}
 }

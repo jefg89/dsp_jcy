@@ -1,16 +1,11 @@
-	#include <stdio.h>
-	#include <stdlib.h>
-	#include <math.h>
+	#include "goertzel.h"
 	#include <alsa/asoundlib.h>
-	#define BUFFER_LEN 88200
-	#define pi 3.141592654
+	#define BUFFER_LEN 44100
 	
 static char *device = "default";                       //soundcard
 snd_output_t *output = NULL;
 float buffer [BUFFER_LEN];
 int Fs = 44100;
-
-float goertzel(int N,int Ft,int Fs, float* input);
 
 	int main (int argc, char *argv[])
 	{
@@ -18,6 +13,7 @@ float goertzel(int N,int Ft,int Fs, float* input);
 		int k,j;
 		int err;
 		int frames_read=0;
+		int digit = 2 ;
 		
 		snd_pcm_t *handle;
 		snd_pcm_hw_params_t *hw_params;
@@ -62,11 +58,11 @@ float goertzel(int N,int Ft,int Fs, float* input);
 
 
 	
-		for (i = 0; i < 5; ++i) {
+		while(1) {
 			frames_read+=snd_pcm_readi (handle, buffer, BUFFER_LEN) ; 
 			//snd_pcm_writei(slave, buffer, BUFFER_LEN);
-			printf("800 = %f\n",goertzel(BUFFER_LEN,800,Fs, buffer));
-			printf("440 = %f\n",goertzel(BUFFER_LEN,440,Fs, buffer));
+			if(finding_freq(BUFFER_LEN, digit, Fs, buffer))
+				printf("%d Aparecio!!!!!\n",digit);
 				
 		}
 
@@ -82,7 +78,7 @@ float goertzel(int N,int Ft,int Fs, float* input);
 		return 0;
 	}
 
-
+/*
 float goertzel(int N,int Ft,int Fs, float* input)
 {
     int     k, i;
@@ -110,4 +106,4 @@ float goertzel(int N,int Ft,int Fs, float* input)
 
     power = (q2 *q2 + q1 * q1 - cosine * q1 * q2) / scalingFactor;
     return power;
-}
+}*/
