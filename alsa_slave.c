@@ -66,7 +66,7 @@ float goertzel(int N,int Ft,int Fs, float* input);
 			frames_read+=snd_pcm_readi (handle, buffer, BUFFER_LEN) ; 
 			//snd_pcm_writei(slave, buffer, BUFFER_LEN);
 			printf("800 = %f\n",goertzel(BUFFER_LEN,800,Fs, buffer));
-			printf("440 = %f\n",goertzel(BUFFER_LEN,430,Fs, buffer));
+			printf("440 = %f\n",goertzel(BUFFER_LEN,440,Fs, buffer));
 				
 		}
 
