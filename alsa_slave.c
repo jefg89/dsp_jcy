@@ -58,13 +58,15 @@ void *finding_freq();
 		
 		while(1) {
 			//get_time_buffer_f = get_time_usec();
-			snd_pcm_readi (handle, buffer_f, BUFFER_LEN) ; 
+			(void) snd_pcm_readi (handle, buffer_f, BUFFER_LEN) ; 
 			pthread_create( &thread1, NULL, finding_freq,NULL);
+			(void) snd_pcm_writei(slave, buffer_f, BUFFER_LEN);
 			//printf("Time buffer_f = %lu\n", get_time_usec() - get_time_buffer_f);
 			
 			//get_time_buffer_s = get_time_usec();
-			snd_pcm_readi (handle, buffer_s, BUFFER_LEN);
+			(void) snd_pcm_readi (handle, buffer_s, BUFFER_LEN);
 			pthread_create( &thread2, NULL, finding_freq,NULL);
+			(void) snd_pcm_writei(slave, buffer_s, BUFFER_LEN);
 			//printf("Time buffer_s = %lu\n", get_time_usec() - get_time_buffer_s);
 		}
 		
