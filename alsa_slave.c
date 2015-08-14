@@ -63,6 +63,7 @@ void *finding_freq();
 			sync_ = 0; 
 			pthread_create( &thread2, NULL, finding_freq,NULL);
 			//snd_pcm_writei(slave, buffer, BUFFER_LEN);
+			printf("Time = %lu",get_time_usec());
 		}
 		
 		snd_pcm_close (handle);
