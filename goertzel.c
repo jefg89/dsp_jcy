@@ -30,6 +30,7 @@ float goertzel(int N,int Ft, float* input) {
 void *finding_freq() {
 	
 	int freq_up, freq_down;
+	sync_ = !sync_;
 	
 	switch ( digit ) {
         case 0:        
@@ -102,7 +103,7 @@ void *finding_freq() {
     if ((g1>3000) & 
        ((g2>3000))){
 		printf("%d Aparecio\n", digit);
-	   }
+	}
 }
 
 unsigned long get_time_usec() {

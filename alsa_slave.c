@@ -14,7 +14,7 @@ void *finding_freq();
 		int err;
 		Fs = 44100;
 		digit = 2 ;
-		sync_ = 0;
+		sync_ = 1;
 		
 		snd_pcm_t *handle;
 		snd_pcm_hw_params_t *hw_params;
@@ -54,16 +54,19 @@ void *finding_freq();
 		    printf("Playback open error: %s\n", snd_strerror(err));
 		    exit(EXIT_FAILURE);
 	    }
-	
+		
+		unsigned long get_time_buffer_f, get_time_buffer_s;
+		
 		while(1) {
+			get_time_buffer_f = get_time_usec();
 			snd_pcm_readi (handle, buffer_f, BUFFER_LEN) ; 
-			sync_ = 1;
 			pthread_create( &thread1, NULL, finding_freq,NULL);
+			printf("Time buffer_f = %lu\n", get_time_usec() - get_time_buffer_f);
+			
+			get_time_buffer_s = get_time_usec();
 			snd_pcm_readi (handle, buffer_s, BUFFER_LEN);
-			sync_ = 0; 
 			pthread_create( &thread2, NULL, finding_freq,NULL);
-			//snd_pcm_writei(slave, buffer, BUFFER_LEN);
-			printf("Time = %lu",get_time_usec());
+			printf("Time buffer_s = %lu\n", get_time_usec() - get_time_buffer_s);
 		}
 		
 		snd_pcm_close (handle);
