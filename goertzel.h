@@ -5,7 +5,8 @@
 #include <math.h>
 #include <omp.h>
 
-#define BUFFER_LEN 44100
+#define BUFFER_LEN 2048
+#define TH 200
 
 float buffer_f [BUFFER_LEN];
 float buffer_s [BUFFER_LEN];

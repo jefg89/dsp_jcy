@@ -101,8 +101,8 @@ void *finding_freq() {
 			g2 = goertzel(BUFFER_LEN, freq_down, buffer_f);
 		}
 	}
-    if ((g1>3000) & 
-       ((g2>3000))){
+    if ((g1>TH) & 
+       ((g2>TH))){
 		printf("%d Aparecio\n", digit);
 	}
 }
