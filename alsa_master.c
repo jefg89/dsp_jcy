@@ -2,6 +2,7 @@
 #include <alsa/pcm.h>
 #include <math.h>
 #include <omp.h>
+#include <conio.h>
 #define BUFFER_LEN 44100//44100
 
 static char *device = "default";                       //soundcard
@@ -15,7 +16,7 @@ int main(void)
     int err;
     int j,k;
     
-    int Fs = 44100;             //sampling frequency
+    int Fs = 2048;             //sampling frequency
     int digit = 2;
 
     snd_pcm_t *handle;
@@ -44,8 +45,9 @@ int main(void)
 
         gen_tones(BUFFER_LEN, digit, Fs, buffer);   
 
-        for (j=0; j<1; j++){
+        while(1){
             frames = snd_pcm_writei(handle, buffer, BUFFER_LEN);    //sending values to sound driver
+            getch();
             }
 
     snd_pcm_close(handle);
