@@ -1,5 +1,7 @@
 #include "goertzel.h"
 
+float g1, g2;
+
 float goertzel(int N,int Ft, float* input) {
 	
     int     k, i;
@@ -85,7 +87,6 @@ void *finding_freq() {
             freq_up = 0; freq_down = 0;
             break;
     }
-    float g1, g2;
     if(sync_) {
 		#pragma omp parallel
 		{
