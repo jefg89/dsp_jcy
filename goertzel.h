@@ -1,7 +1,18 @@
-#include <stdlib.h>  
+#include <stdlib.h> 
+#include <alsa/asoundlib.h>
+#include <pthread.h>
 #include <stdio.h>
 #include <math.h>
 #include <omp.h>
 
-float goertzel(int N,int Ft,int Fs, float* input);
-int finding_freq(int buffer_size, int digit, int Fs, float* input);
+#define BUFFER_LEN 44100
+
+float buffer_f [BUFFER_LEN];
+float buffer_s [BUFFER_LEN];
+int Fs;
+int digit;
+int sync_;
+
+float goertzel(int N,int Ft, float* input);
+void *finding_freq();
+unsigned long get_time_usec();

@@ -1,7 +1,7 @@
 #include "goertzel.h"
 
-float goertzel(int N,int Ft,int Fs, float* input)
-{
+float goertzel(int N,int Ft, float* input) {
+	
     int     k, i;
     float   floatN;
     float   omega, sine, cosine, q0, q1, q2, power;
@@ -27,10 +27,10 @@ float goertzel(int N,int Ft,int Fs, float* input)
     power = (q2 *q2 + q1 * q1 - cosine * q1 * q2) / scalingFactor;
     return power;
 }
-
-int finding_freq(int buffer_size, int digit, int Fs, float* input)
-{
+void *finding_freq() {
+	
 	int freq_up, freq_down;
+	
 	switch ( digit ) {
         case 0:        
             freq_up = 1336; freq_down = 941;  
@@ -85,20 +85,35 @@ int finding_freq(int buffer_size, int digit, int Fs, float* input)
             break;
     }
     float g1, g2;
-    #pragma omp parallel
-    {
-		g1 = goertzel(buffer_size, freq_up , Fs, input);
-		g2 = goertzel(buffer_size, freq_down , Fs, input);
+    if(sync_) {
+		#pragma omp parallel
+		{
+			g1 = goertzel(BUFFER_LEN, freq_up, buffer_s);
+			g2 = goertzel(BUFFER_LEN, freq_down, buffer_s);
+		}
+	}
+	else {
+		#pragma omp parallel
+		{
+			g1 = goertzel(BUFFER_LEN, freq_up, buffer_f);
+			g2 = goertzel(BUFFER_LEN, freq_down, buffer_f);
+		}
 	}
     if ((g1>3000) & 
        ((g2>3000))){
-    /*if ((goertzel(N, freq_up , Fs, input)>3000) & 
-       ((goertzel(N, freq_down , Fs, input)>3000))){*/
-		return 1;
+		printf("%d Aparecio\n", digit);
 	   }
-	else
-		return 0;
 }
+
+unsigned long get_time_usec() {
+	
+	struct timeval tv;
+	gettimeofday(&tv,NULL);
+	unsigned long time_in_micros = 1000000 * tv.tv_sec + tv.tv_usec;
+	return time_in_micros;
+}
+
+
 /*
 int main(){
 
@@ -120,4 +135,3 @@ int main(){
 		printf("digito %d encontrado\n", digit);
 	return 0;
 }*/
-
