@@ -1,6 +1,7 @@
 #include "goertzel.h"
 
-float g1, g2;
+int g1, g2, g3, g4;
+int found = 1;
 
 float goertzel(int N,int Ft, float* input) {
 	
@@ -30,10 +31,61 @@ float goertzel(int N,int Ft, float* input) {
     return power;
 }
 void *finding_freq() {
+	usleep(100000);
+	while(1) {
+		pthread_mutex_lock(&mutex_f);
+		#pragma omp parallel
+		{
+			g1 = goertzel(BUFFER_LEN, freq_up, buffer_f);
+			g2 = goertzel(BUFFER_LEN, freq_down, buffer_f);
+		}
+		//printf("%d   %d Aparecio\n", g1, g2);
+		if ((g1>TH) & 
+		   (g2>TH)){
+			if(found) {
+				printf("Digito %d encontrado\n", digit);
+				found = 0;
+			}
+			else {
+				found = 1;
+			}
+		}
+		pthread_mutex_unlock(&mutex_f);
+		pthread_mutex_lock(&mutex_s);
+		#pragma omp parallel
+		{
+			g3 = goertzel(BUFFER_LEN, freq_up, buffer_s);
+			g4 = goertzel(BUFFER_LEN, freq_down, buffer_s);
+		}
+		//printf("%d   %d Aparecio\n", g3, g4);
+		if ((g3>TH) & 
+		   (g4>TH)){
+			if(found) {
+				printf("Digito %d encontrado\n", digit);
+				found = 0;
+			}
+			else {
+				found = 1;
+			}
+		}
+		pthread_mutex_unlock(&mutex_s);
+	}
+}
+
+void *write_() {
+	usleep(100000);
+	while(1)
+	{	
+		pthread_mutex_lock(&mutex_w1);
 	
-	int freq_up, freq_down;
-	sync_ = !sync_;
-	
+		(void) snd_pcm_writei(slave, buffer_f, BUFFER_LEN);
+		pthread_mutex_unlock(&mutex_w1); 
+		(void) snd_pcm_writei(slave, buffer_s, BUFFER_LEN);
+
+	}
+}
+
+void set_station() {
 	switch ( digit ) {
         case 0:        
             freq_up = 1336; freq_down = 941;  
@@ -86,27 +138,8 @@ void *finding_freq() {
         default:   /*Any*/       
             freq_up = 0; freq_down = 0;
             break;
-    }
-    if(sync_) {
-		#pragma omp parallel
-		{
-			g1 = goertzel(BUFFER_LEN, freq_up, buffer_s);
-			g2 = goertzel(BUFFER_LEN, freq_down, buffer_s);
-		}
-	}
-	else {
-		#pragma omp parallel
-		{
-			g1 = goertzel(BUFFER_LEN, freq_up, buffer_f);
-			g2 = goertzel(BUFFER_LEN, freq_down, buffer_f);
-		}
-	}
-    if ((g1>TH) & 
-       ((g2>TH))){
-		printf("%d Aparecio\n", digit);
 	}
 }
-
 unsigned long get_time_usec() {
 	
 	struct timeval tv;
@@ -116,24 +149,3 @@ unsigned long get_time_usec() {
 }
 
 
-/*
-int main(){
-
-	int buffer_size = 96410000;
-	int Fs = 44100;
-	float floatFs;
-	int digit =9;
-	floatFs = (float) Fs;
-	
-	float *input;
-	input = (float *)malloc(buffer_size*sizeof(float));
-	int i;
-	
-	#pragma omp parallel for
-	for(i=0;i<buffer_size;i++){
-		input[i] = 1*sin(2.0*M_PI*1477.0*i/floatFs) + 2*sin(2.0*M_PI*852.0*i/floatFs);
-	}
-	if(finding_freq( buffer_size,  digit, Fs, input))
-		printf("digito %d encontrado\n", digit);
-	return 0;
-}*/
