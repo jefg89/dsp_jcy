@@ -4,7 +4,6 @@ static char *device = "default";                       //soundcard
 snd_output_t *output = NULL;
 pthread_t thread1, thread2;
 
-void *finding_freq();
 
 	int main (int argc, char *argv[])
 	{
@@ -12,13 +11,10 @@ void *finding_freq();
 		int k,j;
 		int err;
 		Fs = 44100;
-		digit = 2 ;
+		digit = 4;
 		sync_ = 1;
 		
-		snd_pcm_t *handle;
-		snd_pcm_hw_params_t *hw_params;
-		snd_pcm_t *slave;
-		
+		set_station(); 
 
 		if ((err = snd_pcm_open (&handle, device, SND_PCM_STREAM_CAPTURE, 0)) < 0) {
 
@@ -55,19 +51,20 @@ void *finding_freq();
 	    }
 		
 		//unsigned long get_time_buffer_f, get_time_buffer_s;
-		
+		//pthread_create( &thread2, NULL, write_, NULL);
+		pthread_create( &thread1, NULL, finding_freq, NULL);
 		while(1) {
-			//get_time_buffer_f = get_time_usec();
-			(void) snd_pcm_readi (handle, buffer_f, BUFFER_LEN) ; 
-			pthread_create( &thread1, NULL, finding_freq,NULL);
-			(void) snd_pcm_writei(slave, buffer_f, BUFFER_LEN);
-			//printf("Time buffer_f = %lu\n", get_time_usec() - get_time_buffer_f);
+			pthread_mutex_lock(&mutex_f);
+			pthread_mutex_unlock(&mutex_s);
+			//pthread_mutex_lock(&mutex_w1);		
+			(void) snd_pcm_readi(handle, buffer_f, BUFFER_LEN); 
 			
-			//get_time_buffer_s = get_time_usec();
-			(void) snd_pcm_readi (handle, buffer_s, BUFFER_LEN);
-			pthread_create( &thread2, NULL, finding_freq,NULL);
-			(void) snd_pcm_writei(slave, buffer_s, BUFFER_LEN);
-			//printf("Time buffer_s = %lu\n", get_time_usec() - get_time_buffer_s);
+			//pthread_mutex_unlock(&mutex_w1);
+			pthread_mutex_lock(&mutex_s);
+			pthread_mutex_unlock(&mutex_f);
+			(void) snd_pcm_readi(handle, buffer_s, BUFFER_LEN);
+
+			//printf("Time buffer_f = %lu\n", get_time_usec() - get_time_buffer_f);
 		}
 		
 		snd_pcm_close (handle);
