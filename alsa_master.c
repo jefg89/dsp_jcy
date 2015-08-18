@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <pthread.h>
 
-#define BUFFER_LEN 2048//44100
+#define BUFFER_LEN 8192//44100
 
 static struct termios old, new;
 static struct termios g_old_kbd_mode;
