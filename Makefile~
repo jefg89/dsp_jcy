@@ -9,7 +9,7 @@ SRCM = alsa_master.c menu.c
 #OBJS = $(SRCS:.c=.o)
 #OBJM = $(SRCM:.c=.o)
 DEPS = goertzel.h
-DEPM = menuGUI.h
+DEPM = menu_GUI.h
 all: slave master
 
 slave: $(SRCS) $(DEPS)
