@@ -25,7 +25,7 @@ int main(void)
     int err;
     int j,k;
     
-    int digit = 2;
+    digit=2;
     snd_pcm_t *handle;
     send = 0;
     Fs = 44100;
@@ -33,7 +33,7 @@ int main(void)
     for(j = 0; j < BUFFER_LEN; j++) {
 		buffer_null[j] = 0;
 	}
-
+	gen_tones();
 
     // ERROR HANDLING
 
@@ -58,7 +58,7 @@ int main(void)
 	   pthread_create(&tkc, NULL, menu, NULL);
        while(ch1 != 'q') {
 			if(send){
-				(void) snd_pcm_writei(handle, buffer, BUFFER_LEN);    //sending values to sound driver
+				(void) snd_pcm_writei(handle, buffer[digit], BUFFER_LEN);    //sending values to sound driver
 				send = 0;
 			}
             else (void) snd_pcm_writei(handle, buffer_null, BUFFER_LEN);    //sending values to sound driver

@@ -302,7 +302,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[1]);
 			mvwprintw( w1, 1, 2, "%s", item1 );
 			wrefresh( w1 ); // update the terminal screen
-			gen_tones(BUFFER_LEN, 1, Fs, buffer);
+			digit = 1;
 			send = 1; 
 			usleep(200000);
 			
@@ -317,7 +317,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[2]);
 			mvwprintw( w2, 1, 2, "%s", item1 );
 			wrefresh( w2 ); // update the terminal screen
-			gen_tones(BUFFER_LEN, 2, Fs, buffer);
+			digit = 2;
 			send = 1; 
 			usleep(200000);
 			
@@ -332,7 +332,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[3]);
 			mvwprintw( w3, 1, 2, "%s", item1 );
 			wrefresh( w3 ); // update the terminal screen
-			gen_tones(BUFFER_LEN, 3, Fs, buffer);
+			digit = 3;
 			send = 1; 
 			usleep(200000);
 			
@@ -347,7 +347,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[10]);
 			mvwprintw( w4, 1, 2, "%s", item1 );
 			wrefresh( w4 ); // update the terminal screen
-			gen_tones(BUFFER_LEN, 10, Fs, buffer);
+			digit = 10;
 			send = 1; 
 			usleep(200000);
 			
@@ -362,7 +362,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[4]);
 			mvwprintw( w5, 1, 2, "%s", item1 );
 			wrefresh( w5 ); // update the terminal screen
-			gen_tones(BUFFER_LEN,4, Fs, buffer);
+			digit = 4;
 			send = 1; 
 			usleep(200000);
 			
@@ -377,7 +377,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[5]);
 			mvwprintw( w6, 1, 2, "%s", item1 );
 			wrefresh( w6 ); // update the terminal screen
-			gen_tones(BUFFER_LEN, 5, Fs, buffer);
+			digit = 5;
 			send = 1; 
 			usleep(200000);
 			
@@ -392,7 +392,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[6]);
 			mvwprintw( w7, 1, 2, "%s", item1 );
 			wrefresh( w7 ); // update the terminal screen
-			gen_tones(BUFFER_LEN, 6, Fs, buffer);
+			digit = 6;
 			send = 1; 
 			usleep(200000);
 			
@@ -408,7 +408,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[11]);
 			mvwprintw( w8, 1, 2, "%s", item1 );
 			wrefresh( w8 ); // update the terminal screen
-			gen_tones(BUFFER_LEN, 11, Fs, buffer);
+			digit = 11;
 			send = 1; 
 			usleep(200000);
 			
@@ -424,7 +424,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[7]);
 			mvwprintw( w9, 1, 2, "%s", item1 );
 			wrefresh( w9 ); // update the terminal screen
-			gen_tones(BUFFER_LEN, 7, Fs, buffer);
+			digit = 7;
 			send = 1; 
 			usleep(200000);
 			
@@ -439,7 +439,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[8]);
 			mvwprintw( w10, 1, 2, "%s", item1 );
 			wrefresh( w10 ); // update the terminal screen
-			gen_tones(BUFFER_LEN, 8, Fs, buffer);
+			digit = 8;
 			send = 1; 
 			usleep(200000);
 			
@@ -454,7 +454,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[9]);
 			mvwprintw( w11, 1, 2, "%s", item1 );
 			wrefresh( w11 ); // update the terminal screen
-			gen_tones(BUFFER_LEN, 9, Fs, buffer);
+			digit = 9;
 			send = 1; 
 			usleep(200000);
 			
@@ -469,7 +469,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[12]);
 			mvwprintw( w12, 1, 2, "%s", item1 );
 			wrefresh( w12 ); // update the terminal screen
-			gen_tones(BUFFER_LEN, 12, Fs, buffer);
+			digit = 12;
 			send = 1; 
 			usleep(200000);
 			
@@ -484,7 +484,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[14]);
 			mvwprintw( w13, 1, 2, "%s", item1 );
 			wrefresh( w13 ); // update the terminal screen
-			gen_tones(BUFFER_LEN, 14, Fs, buffer);
+			digit = 14;
 			send = 1; 
 			usleep(200000);
 			
@@ -499,7 +499,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[0]);
 			mvwprintw( w14, 1, 2, "%s", item1 );
 			wrefresh( w14 );
-			gen_tones(BUFFER_LEN, 0, Fs, buffer);
+			digit = 0;
 			send = 1; 
 			usleep(200000);
 			
@@ -514,7 +514,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[15]);
 			mvwprintw( w15, 1, 2, "%s", item1 );
 			wrefresh( w15 );
-			gen_tones(BUFFER_LEN, 15, Fs, buffer);
+			digit = 15;
 			send = 1; 
 			usleep(200000);
 			
@@ -529,7 +529,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[13]);
 			mvwprintw( w16, 1, 2, "%s", item1 );
 			wrefresh( w16 );
-			gen_tones(BUFFER_LEN, 13, Fs, buffer);
+			digit = 13;
 			send = 1; 
 			usleep(200000);
 			
@@ -646,65 +646,67 @@ void* menu() {
 
 
 
-void gen_tones(int buffer_size, int digit, int Fs, float* input)
+void gen_tones()
 {
 	float freq_up, freq_down;
-	switch ( digit ) {
-        case 0:
-            freq_up = 1336; freq_down = 941;  
-            break;
-        case 1:
-			freq_up = 1209; freq_down = 697;         
-            break;
-        case 2:          
-            freq_up = 1336; freq_down = 697;
-            break;
-        case 3:         
-            freq_up = 1477; freq_down = 697;
-            break;
-        case 4:        
-            freq_up = 1209; freq_down = 770;
-            break;
-        case 5:        
-            freq_up = 1336; freq_down = 770;
-            break;
-        case 6:        
-            freq_up = 1477; freq_down = 770;
-            break;
-        case 7:        
-            freq_up = 1209; freq_down = 852;
-            break;
-        case 8:        
-            freq_up = 1336; freq_down = 852;
-            break;
-        case 9:        
-            freq_up = 1477; freq_down = 852;
-            break;
-        case 10:   /* A */ 
-            freq_up = 1633; freq_down = 697;
-            break;
-        case 11:   /* B */     
-            freq_up = 1633; freq_down = 770;
-            break;
-        case 12:   /* C */     
-            freq_up = 1633; freq_down = 852;
-            break; 
-        case 13:   /* D */    
-            freq_up = 1333; freq_down = 941;
-            break;
-        case 14:   /* * */    
-            freq_up = 1209; freq_down = 941;
-            break;
-        case 15:   /* # */      
-            freq_up = 1477; freq_down = 941;
-            break;
-        default:   /*Any*/       
-            freq_up = 0; freq_down = 0;
-            break;
-    }
-    int i;
+    int i,j;
     #pragma omp parallel for
-	for(i=0;i<buffer_size;i++){
-		input[i] = sin(2.0*M_PI*freq_down*i/Fs) + sin(2.0*M_PI*freq_up*i/Fs);
+	
+	for(i=0;i<16;i++){
+		for(j=0;j<BUFFER_LEN;j++)
+		switch ( j ) {
+			case 0:
+				freq_up = 1336; freq_down = 941;  
+				break;
+			case 1:
+				freq_up = 1209; freq_down = 697;         
+				break;
+			case 2:          
+				freq_up = 1336; freq_down = 697;
+				break;
+			case 3:         
+				freq_up = 1477; freq_down = 697;
+				break;
+			case 4:        
+				freq_up = 1209; freq_down = 770;
+				break;
+			case 5:        
+				freq_up = 1336; freq_down = 770;
+				break;
+			case 6:        
+				freq_up = 1477; freq_down = 770;
+				break;
+			case 7:        
+				freq_up = 1209; freq_down = 852;
+				break;
+			case 8:        
+				freq_up = 1336; freq_down = 852;
+				break;
+			case 9:        
+				freq_up = 1477; freq_down = 852;
+				break;
+			case 10:   /* A */ 
+				freq_up = 1633; freq_down = 697;
+				break;
+			case 11:   /* B */     
+				freq_up = 1633; freq_down = 770;
+				break;
+			case 12:   /* C */     
+				freq_up = 1633; freq_down = 852;
+				break; 
+			case 13:   /* D */    
+				freq_up = 1333; freq_down = 941;
+				break;
+			case 14:   /* * */    
+				freq_up = 1209; freq_down = 941;
+				break;
+			case 15:   /* # */      
+				freq_up = 1477; freq_down = 941;
+				break;
+			default:   /*Any*/       
+				freq_up = 0; freq_down = 0;
+				break;
+		}
+			buffer[i][j] = sin(2.0*M_PI*freq_down*j/Fs) + sin(2.0*M_PI*freq_up*j/Fs);
 	}
 }
