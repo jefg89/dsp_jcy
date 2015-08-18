@@ -653,8 +653,7 @@ void gen_tones()
     #pragma omp parallel for
 	
 	for(i=0;i<16;i++){
-		for(j=0;j<BUFFER_LEN;j++)
-		switch ( j ) {
+		switch ( 1 ) {
 			case 0:
 				freq_up = 1336; freq_down = 941;  
 				break;
@@ -707,6 +706,7 @@ void gen_tones()
 				freq_up = 0; freq_down = 0;
 				break;
 		}
+		for(j=0;j<BUFFER_LEN;j++)
 			buffer[i][j] = sin(2.0*M_PI*freq_down*j/Fs) + sin(2.0*M_PI*freq_up*j/Fs);
 	}
 }
