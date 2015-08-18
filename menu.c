@@ -650,7 +650,6 @@ void gen_tones()
 {
 	float freq_up, freq_down;
     int i,j;
-   // #pragma omp parallel for
 	
 	for(i=0;i<16;i++){
 		switch ( i ) {
