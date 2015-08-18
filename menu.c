@@ -653,7 +653,7 @@ void gen_tones()
     #pragma omp parallel for
 	
 	for(i=0;i<16;i++){
-		switch ( 1 ) {
+		switch ( i ) {
 			case 0:
 				freq_up = 1336; freq_down = 941;  
 				break;
