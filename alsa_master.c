@@ -29,6 +29,7 @@ int main(void)
     snd_pcm_t *handle;
     send = 0;
     Fs = 44100;
+    int durationdefaultsize = 3;
   
     for(j = 0; j < BUFFER_LEN; j++) {
 		buffer_null[j] = 0;

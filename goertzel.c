@@ -1,4 +1,4 @@
-#include "goertzel.h"
+#include <goertzel.h>
 
 int g1, g2, g3, g4;
 int found = 1;
@@ -32,7 +32,7 @@ float goertzel(int N,int Ft, float* input) {
 }
 void *finding_freq() {
 	usleep(100000);
-	while(1) {
+	while(ch1) {
 		pthread_mutex_lock(&mutex_f);
 		#pragma omp parallel
 		{
@@ -70,6 +70,7 @@ void *finding_freq() {
 		}
 		pthread_mutex_unlock(&mutex_s);
 	}
+	pthread_exit(NULL);
 }
 
 void *write_() {
@@ -78,9 +79,9 @@ void *write_() {
 	{	
 		pthread_mutex_lock(&mutex_w1);
 	
-		(void) snd_pcm_writei(slave, buffer_f, BUFFER_LEN);
+		(void) snd_pcm_writei(handle_w, buffer_f, BUFFER_LEN);
 		pthread_mutex_unlock(&mutex_w1); 
-		(void) snd_pcm_writei(slave, buffer_s, BUFFER_LEN);
+		(void) snd_pcm_writei(handle_w, buffer_s, BUFFER_LEN);
 
 	}
 }

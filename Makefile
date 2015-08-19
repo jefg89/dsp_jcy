@@ -1,4 +1,4 @@
-.PHONY: clean all alsa_slave
+.PHONY: clean all slave master dtmf
 
 CC = gcc
 LIB = -lrt -lpthread -lasound -lm -fopenmp -lncurses
@@ -10,7 +10,7 @@ SRCM = alsa_master.c menu.c
 #OBJM = $(SRCM:.c=.o)
 DEPS = goertzel.h
 DEPM = menuGUI.h
-all: slave master
+all: slave master dtmf
 
 slave: $(SRCS) $(DEPS)
 	$(CC) -o $(APPS) $(SRCS) $(LIB)
@@ -22,6 +22,11 @@ master: $(SRCM)	$(DEPM)
 	clear
 	@echo "Compilación Exitosa!!" 
 
+dtmf: dtmf.c	$(DEPM) $(DEPS)
+	$(CC) -o dtmf dtmf.c goertzel.c menu.c $(LIB) -I.
+	clear
+	@echo "Compilación Exitosa!!" 
+
 clean:
 	clear
-	rm -f $(OBJS) $(OBJM) $(APPS) $(APPM)
+	rm -f $(OBJS) $(OBJM) $(APPS) $(APPM) dtmf
