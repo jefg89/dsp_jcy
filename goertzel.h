@@ -4,15 +4,16 @@
 #include <stdio.h>
 #include <math.h>
 #include <omp.h>
+#define BUFFER_LEN 1024
 
-#define BUFFER_LEN 8192
 #define TH 50
 
+int ch, ch1;
 float buffer_f [BUFFER_LEN];
 float buffer_s [BUFFER_LEN];
 int freq_up, freq_down;
-snd_pcm_t *handle;
-snd_pcm_t *slave;
+snd_pcm_t *handle_w;
+snd_pcm_t *handle_r;
 int Fs;
 int digit;
 int sync_;

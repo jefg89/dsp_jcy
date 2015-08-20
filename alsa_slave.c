@@ -28,7 +28,7 @@ pthread_t thread1, thread2;
                                   1,
                                   Fs,
                                   1,
-                                  500000)) < 0) {   
+                                  100000)) < 0) {   
             printf("Playback open error: %s\n", snd_strerror(err));
             exit(EXIT_FAILURE);
                    }
@@ -45,21 +45,21 @@ pthread_t thread1, thread2;
 		                          1,
 		                          Fs,
 		                          1,
-		                          500000)) < 0) {   
+		                          100000)) < 0) {   
 		    printf("Playback open error: %s\n", snd_strerror(err));
 		    exit(EXIT_FAILURE);
 	    }
 		
 		//unsigned long get_time_buffer_f, get_time_buffer_s;
-		pthread_create( &thread2, NULL, write_, NULL);
+		//pthread_create( &thread2, NULL, write_, NULL);
 		pthread_create( &thread1, NULL, finding_freq, NULL);
 		while(1) {
 			pthread_mutex_lock(&mutex_f);
 			pthread_mutex_unlock(&mutex_s);
-			pthread_mutex_lock(&mutex_w1);		
+			//pthread_mutex_lock(&mutex_w1);		
 			(void) snd_pcm_readi(handle, buffer_f, BUFFER_LEN); 
 			
-			pthread_mutex_unlock(&mutex_w1);
+			//pthread_mutex_unlock(&mutex_w1);
 			pthread_mutex_lock(&mutex_s);
 			pthread_mutex_unlock(&mutex_f);
 			(void) snd_pcm_readi(handle, buffer_s, BUFFER_LEN);
