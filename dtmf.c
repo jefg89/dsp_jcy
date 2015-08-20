@@ -100,7 +100,7 @@ for(j = 0; j < 1024; j++) {
 			}
 			
 			snd_pcm_close(handle_w);
-			usleep(50000);
+			usleep(100000);
 			//sleep(1);
 		
 		
@@ -153,7 +153,7 @@ for(j = 0; j < 1024; j++) {
 
 			}
 			snd_pcm_close(handle_r);
-			usleep(50000);
+			usleep(100000);
 			//snd_pcm_close(handle_w);
 			//sleep(1);
 			//printf("salimos del while recibido \n");

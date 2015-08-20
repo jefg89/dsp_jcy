@@ -33,7 +33,7 @@ float goertzel(int N,int Ft, float* input) {
 
 void *finding_freq() {
 	usleep(100000);
-	while(ch1) {
+	while(1) {
 		pthread_mutex_lock(&mutex_f);
 		#pragma omp parallel
 		{
