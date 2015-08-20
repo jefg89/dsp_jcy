@@ -16,7 +16,6 @@ float goertzel(int N,int Ft, float* input) {
     omega = (2.0 * M_PI * k) / floatN;
     sine = sin(omega);
     cosine = 2.0 *cos(omega);
-
     q0=0;
     q1=0;
     q2=0;
@@ -32,7 +31,11 @@ float goertzel(int N,int Ft, float* input) {
 }
 
 void *finding_freq() {
+	clock_t start, end;
+	double elapsed;
+	int err;
 	usleep(100000);
+	start = clock();
 	while(1) {
 		pthread_mutex_lock(&mutex_f);
 		#pragma omp parallel
@@ -40,13 +43,17 @@ void *finding_freq() {
 			g1 = goertzel(2048, freq_up, buffer_f);
 			g2 = goertzel(2048, freq_down, buffer_f);
 		}
-		//printf("%d   %d  %d Aparecio\n", g1, g2, digit);
 		if ((g1>TH) & 
 		   (g2>TH)){
 			if(found) {
-				//printf("Digito %d encontrado\n", digit);
+				//printf("Digito %f encontrado\n", end);
 				found = 0;
 				system("echo 0 > /sys/class/gpio/gpio17/value");
+				dial_num[num_det] = num_jef[num_det];
+				num_det++;
+				digit = num_jef[num_det];
+				set_station();
+				start = clock();
 			}
 		}
 		else {
@@ -60,13 +67,17 @@ void *finding_freq() {
 			g3 = goertzel(2048, freq_up, buffer_s);
 			g4 = goertzel(2048, freq_down, buffer_s);
 		}
-		//printf("%d   %d Aparecio\n", g3, g4);
 		if ((g3>TH) & 
 		   (g4>TH)){
 			if(found) {
-				//printf("Digito %d encontrado\n", digit);
+				//printf("Digito %f encontrado\n", end);
 				found = 0;
 				system("echo 0 > /sys/class/gpio/gpio17/value");
+				dial_num[num_det] = num_jef[num_det];
+				num_det++;
+				digit = num_jef[num_det];
+				set_station();
+				start = clock();
 			}
 		}
 		else {
@@ -74,22 +85,52 @@ void *finding_freq() {
 			system("echo 1 > /sys/class/gpio/gpio17/value");
 		}
 		pthread_mutex_unlock(&mutex_s);
-	}
+		end = clock();
+		elapsed = ((double) (end - start)) / CLOCKS_PER_SEC;
+		if(abs(elapsed) > 3) {
+			digit = num_jef[0];
+			num_det = 0;
+			set_station();
+			//printf("Digito %f encontrado\n", digit);
+			
+		}
+		if(num_det == 8) {
+			if ((err = snd_pcm_open(&handle_w, "default", SND_PCM_STREAM_PLAYBACK, 0)) < 0) {
+					printf("Playback open error: %s\n", snd_strerror(err));
+					exit(EXIT_FAILURE);
+			}
 
+			if ((err = snd_pcm_set_params(handle_w,
+										  SND_PCM_FORMAT_FLOAT,
+										  SND_PCM_ACCESS_RW_INTERLEAVED,
+										  1,
+										  Fs,
+										  1,
+										  100000)) < 0) {   
+					printf("Playback open error: %s\n", snd_strerror(err));
+					exit(EXIT_FAILURE);
+
+
+			}
+			pthread_create( &thread2, NULL, write_, NULL);
+			num_det = 0;
+		}
+	}
 }
 
 
 void *write_() {
 	usleep(100000);
-	while(1)
+	while((mode==0) & (ch1 != 'q'))
 	{	
 		pthread_mutex_lock(&mutex_w1);
-	
 		(void) snd_pcm_writei(handle_w, buffer_f, 2048);
 		pthread_mutex_unlock(&mutex_w1); 
 		(void) snd_pcm_writei(handle_w, buffer_s, 2048);
 
 	}
+	snd_pcm_close(handle_w);
+	usleep(100000);
 }
 
 void set_station() {

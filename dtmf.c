@@ -4,24 +4,29 @@
 static struct termios old, new;
 static struct termios g_old_kbd_mode;
 static char *device = "default";                       //soundcard
-snd_output_t *output = NULL;
-
 float buffer_null[1024];
-
-pthread_t tkc, thread1, thread2;
 
 int main(void)
 {
 	
     int err;
     int j,k;
+    num_det = 0;
     
-    digit = 20;
     send = 0;
     Fs = 44100;     //sampling frequency
     durationdefaultsize = 0;
     mode = 2;
-  	
+    num_jef[0] = 2;
+    num_jef[1] = 4;
+    num_jef[2] = 9;
+    num_jef[3] = 4;
+    num_jef[4] = 0;
+    num_jef[5] = 6;
+    num_jef[6] = 1;
+    num_jef[7] = 2;
+	digit = num_jef[0];
+
 	system("echo 17 > /sys/class/gpio/export");
 	system("echo out > /sys/class/gpio/gpio17/direction");
 	system("echo 1 > /sys/class/gpio/gpio17/value");
@@ -139,14 +144,15 @@ for(j = 0; j < 1024; j++) {
 			
 			
 			//pthread_create( &thread2, NULL, write_, NULL);
-			
+			digit = num_jef[0];
+			num_det = 0;
 			while((mode==0) & (ch1 != 'q')) { 
 				//printf("entramos del while recibido \n");
 				pthread_mutex_lock(&mutex_f);
 				pthread_mutex_unlock(&mutex_s);
-				//pthread_mutex_lock(&mutex_w1);		
+				pthread_mutex_lock(&mutex_w1);		
 				(void) snd_pcm_readi(handle_r, buffer_f, 2048); 
-				//pthread_mutex_unlock(&mutex_w1);
+				pthread_mutex_unlock(&mutex_w1);
 				pthread_mutex_lock(&mutex_s);
 				pthread_mutex_unlock(&mutex_f);
 				(void) snd_pcm_readi(handle_r, buffer_s, 2048);
