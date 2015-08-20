@@ -2183,7 +2183,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[1]);
 			mvwprintw( w1, 1, 2, "%s", item1 );
 			wrefresh( w1 ); // update the terminal screen
-			digit = 1;
+			digit_ = 1;
 			send = 1; 
 			usleep(200000);
 			
@@ -2198,7 +2198,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[2]);
 			mvwprintw( w2, 1, 2, "%s", item1 );
 			wrefresh( w2 ); // update the terminal screen
-			digit = 2;
+			digit_ = 2;
 			send = 1; 
 			usleep(200000);
 			
@@ -2213,7 +2213,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[3]);
 			mvwprintw( w3, 1, 2, "%s", item1 );
 			wrefresh( w3 ); // update the terminal screen
-			digit = 3;
+			digit_ = 3;
 			send = 1; 
 			usleep(200000);
 			
@@ -2228,7 +2228,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[10]);
 			mvwprintw( w4, 1, 2, "%s", item1 );
 			wrefresh( w4 ); // update the terminal screen
-			digit = 10;
+			digit_ = 10;
 			send = 1; 
 			usleep(200000);
 			
@@ -2243,7 +2243,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[4]);
 			mvwprintw( w5, 1, 2, "%s", item1 );
 			wrefresh( w5 ); // update the terminal screen
-			digit = 4;
+			digit_ = 4;
 			send = 1; 
 			usleep(200000);
 			
@@ -2258,7 +2258,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[5]);
 			mvwprintw( w6, 1, 2, "%s", item1 );
 			wrefresh( w6 ); // update the terminal screen
-			digit = 5;
+			digit_ = 5;
 			send = 1; 
 			usleep(200000);
 			
@@ -2273,7 +2273,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[6]);
 			mvwprintw( w7, 1, 2, "%s", item1 );
 			wrefresh( w7 ); // update the terminal screen
-			digit = 6;
+			digit_ = 6;
 			send = 1; 
 			usleep(200000);
 			
@@ -2289,7 +2289,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[11]);
 			mvwprintw( w8, 1, 2, "%s", item1 );
 			wrefresh( w8 ); // update the terminal screen
-			digit = 11;
+			digit_ = 11;
 			send = 1; 
 			usleep(200000);
 			
@@ -2305,7 +2305,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[7]);
 			mvwprintw( w9, 1, 2, "%s", item1 );
 			wrefresh( w9 ); // update the terminal screen
-			digit = 7;
+			digit_ = 7;
 			send = 1; 
 			usleep(200000);
 			
@@ -2320,7 +2320,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[8]);
 			mvwprintw( w10, 1, 2, "%s", item1 );
 			wrefresh( w10 ); // update the terminal screen
-			digit = 8;
+			digit_ = 8;
 			send = 1; 
 			usleep(200000);
 			
@@ -2335,7 +2335,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[9]);
 			mvwprintw( w11, 1, 2, "%s", item1 );
 			wrefresh( w11 ); // update the terminal screen
-			digit = 9;
+			digit_ = 9;
 			send = 1; 
 			usleep(200000);
 			
@@ -2350,7 +2350,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[12]);
 			mvwprintw( w12, 1, 2, "%s", item1 );
 			wrefresh( w12 ); // update the terminal screen
-			digit = 12;
+			digit_ = 12;
 			send = 1; 
 			usleep(200000);
 			
@@ -2365,7 +2365,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[14]);
 			mvwprintw( w13, 1, 2, "%s", item1 );
 			wrefresh( w13 ); // update the terminal screen
-			digit = 14;
+			digit_ = 14;
 			send = 1; 
 			usleep(200000);
 			
@@ -2380,7 +2380,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[0]);
 			mvwprintw( w14, 1, 2, "%s", item1 );
 			wrefresh( w14 );
-			digit = 0;
+			digit_ = 0;
 			send = 1; 
 			usleep(200000);
 			
@@ -2395,7 +2395,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[15]);
 			mvwprintw( w15, 1, 2, "%s", item1 );
 			wrefresh( w15 );
-			digit = 15;
+			digit_ = 15;
 			send = 1; 
 			usleep(200000);
 			
@@ -2410,7 +2410,7 @@ void menutransmisor() {
 			sprintf(item1, "%-1s",  list1[13]);
 			mvwprintw( w16, 1, 2, "%s", item1 );
 			wrefresh( w16 );
-			digit = 13;
+			digit_ = 13;
 			send = 1; 
 			usleep(200000);
 			

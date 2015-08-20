@@ -17,6 +17,7 @@ snd_pcm_t *handle_w;
 snd_pcm_t *handle_r;
 int Fs;
 int digit;
+int digit_;
 int sync_;
 int num_det;
 int dial_num[8];
