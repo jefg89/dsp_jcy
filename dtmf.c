@@ -16,7 +16,7 @@ int main(void)
     int err;
     int j,k;
     
-    digit=2;
+    digit = 20;
     send = 0;
     Fs = 44100;     //sampling frequency
     durationdefaultsize = 0;
@@ -25,24 +25,6 @@ int main(void)
     for(j = 0; j < 1024; j++) {
 		buffer_null[j] = 0;
 	}
-	/*for(j = 1024; j < 11793; j++) {
-		buffer_null_11793[j] = 0;
-		buffer_null_22562[j] = 0;
-		buffer_null_33331[j] = 0;
-		buffer_null_44100[j] = 0;
-	}
-	for(j = 11793; j < 22562; j++) {
-		buffer_null_22562[j] = 0;
-		buffer_null_33331[j] = 0;
-		buffer_null_44100[j] = 0;
-	}
-	for(j = 22562; j < 33331; j++) {
-		buffer_null_33331[j] = 0;
-		buffer_null_44100[j] = 0;
-	}
-	for(j = 33331; j < 44100; j++) {
-		buffer_null_44100[j] = 0;
-	}*/
 	buffer_2048 = (float **) malloc(sizeof(float*) * 16);
 	buffer_11793 = (float **) malloc(sizeof(float*) * 16);
 	buffer_22562 = (float **) malloc(sizeof(float*) * 16);
@@ -61,10 +43,12 @@ int main(void)
 	gen_tones(buffer_22562, 22562);
 	gen_tones(buffer_33331, 33331);
 	gen_tones(buffer_44100, 44100);
+	
+	set_station();
 
 	pthread_create(&tkc, NULL, menu, NULL);
 	while (ch1 != 'q') {
-		if(mode) {
+		
 			if ((err = snd_pcm_open(&handle_w, device, SND_PCM_STREAM_PLAYBACK, 0)) < 0) {
 					printf("Playback open error: %s\n", snd_strerror(err));
 					exit(EXIT_FAILURE);
@@ -82,7 +66,7 @@ int main(void)
 
 
 			}
-			while(ch1 != 'q') {
+			while(mode & ch1 != 'q') {
 				if(send){
 					switch( durationdefaultsize ) {
 						case 0:
@@ -109,8 +93,8 @@ int main(void)
 			}
 			snd_pcm_close(handle_w);
 			//sleep(1);
-		}
-		else {
+		
+		
 			if ((err = snd_pcm_open (&handle_r, device, SND_PCM_STREAM_CAPTURE, 0)) < 0) {
 				exit (1);
 			}
@@ -124,22 +108,44 @@ int main(void)
 				printf("Playback open error: %s\n", snd_strerror(err));
 				exit(EXIT_FAILURE);
 					   }
+			
+			/*if ((err = snd_pcm_open(&handle_w, device, SND_PCM_STREAM_PLAYBACK, 0)) < 0) {
+					printf("Playback open error: %s\n", snd_strerror(err));
+					exit(EXIT_FAILURE);
+			}
+
+			if ((err = snd_pcm_set_params(handle_w,
+										  SND_PCM_FORMAT_FLOAT,
+										  SND_PCM_ACCESS_RW_INTERLEAVED,
+										  1,
+										  Fs,
+										  1,
+										  100000)) < 0) {   
+					printf("Playback open error: %s\n", snd_strerror(err));
+					exit(EXIT_FAILURE);
+
+
+			}*/
+			
+			
 			pthread_create( &thread1, NULL, finding_freq, NULL);
-			while(ch1 != 'q') { 
+			//pthread_create( &thread2, NULL, write_, NULL);
+			
+			while(!mode & ch1 != 'q') { 
 				pthread_mutex_lock(&mutex_f);
 				pthread_mutex_unlock(&mutex_s);
 				//pthread_mutex_lock(&mutex_w1);		
-				(void) snd_pcm_readi(handle_r, buffer_f, BUFFER_LEN); 
-				
+				(void) snd_pcm_readi(handle_r, buffer_f, 2048); 
 				//pthread_mutex_unlock(&mutex_w1);
 				pthread_mutex_lock(&mutex_s);
 				pthread_mutex_unlock(&mutex_f);
-				(void) snd_pcm_readi(handle_r, buffer_s, BUFFER_LEN);
+				(void) snd_pcm_readi(handle_r, buffer_s, 2048);
 
 			}
 			snd_pcm_close(handle_r);
+			//snd_pcm_close(handle_w);
 			//sleep(1);
-		}
+		
 	}
     return 0;
 }

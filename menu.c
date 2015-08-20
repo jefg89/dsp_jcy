@@ -1,4 +1,5 @@
 #include <menuGUI.h>
+#include <goertzel.h>
 #include <math.h>
 
 
@@ -75,7 +76,7 @@ void menuDuracion(){
 				mvwprintw( wWordLenght, j+1, 2, "%s", itemmenu2 );
 			}
             wattroff( wWordLenght, A_STANDOUT );
-            switch( durationdefaultsize ) {
+            /*switch( durationdefaultsize ) {
                 case 0:
                             BUFFER_LEN = 2048;
                             break;
@@ -93,7 +94,7 @@ void menuDuracion(){
                             break;
                 default:
 							break;
-			}
+			}*/
             
     }
     QUITY: { }
@@ -102,6 +103,7 @@ void menuDuracion(){
     delwin( wWordLenght );
 }
 void menureceptor() {
+	
      
     //initscr(); // initialize Ncurses 
     
@@ -389,16 +391,13 @@ void menureceptor() {
     curs_set( 0 ); // hide the default screen cursor.
      
        // get the input
-       
-       
-    int actual= 20; 
    
        
     while(( ch = getchar()) != 'q') 
     {
 		if(ch == '1')        //**********************************Tecla 1*********************************
 		{		
-			if(actual!=1) {
+			if(digit!=1) {
 				wattron( w1, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[1]);    // Tecla 1
 				mvwprintw( w1, 1, 2, "%s", item1 );
@@ -478,19 +477,19 @@ void menureceptor() {
 				sprintf(item1, "%-1s",  list1[13]);
 				mvwprintw( w16, 1, 2, "%s", item1 );
 				wrefresh( w16 ); // update the terminal screen	
-				actual=1;
+				digit=1;
 			}
 			else {
 				wattroff( w1, A_STANDOUT );  //          Tecla 1
 				sprintf(item1, "%-1s",  list1[1]);
 				mvwprintw( w1, 1, 2, "%s", item1 );
 				wrefresh( w1 ); // update the terminal screen
-				actual=20;	
+				digit=20;	
 			}			
 		}
 		else if(ch == '2')        //**********************************Tecla 2*********************************
 		{		
-			if(actual!=2) {                        //Tecla 2
+			if(digit!=2) {                        //Tecla 2
 				wattron( w2, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[2]);
 				mvwprintw( w2, 1, 2, "%s", item1 );
@@ -570,20 +569,20 @@ void menureceptor() {
 				sprintf(item1, "%-1s",  list1[13]);
 				mvwprintw( w16, 1, 2, "%s", item1 );
 				wrefresh( w16 ); // update the terminal screen
-				actual=2;
+				digit=2;
 			}
 			else {
 				wattroff( w2, A_STANDOUT );       //Tecla 2
 				sprintf(item1, "%-1s",  list1[2]);
 				mvwprintw( w2, 1, 2, "%s", item1 );
 				wrefresh( w2 ); // update the terminal screen	
-				actual=20;
+				digit=20;
 			}	
 		}
 		else if(ch == '3')        //**********************************Tecla 3*********************************
 		{		
 			
-			if(actual!=3) {
+			if(digit!=3) {
 				wattroff( w1, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[1]);    // Tecla 1
 				mvwprintw( w1, 1, 2, "%s", item1 );
@@ -663,20 +662,20 @@ void menureceptor() {
 				sprintf(item1, "%-1s",  list1[13]);
 				mvwprintw( w16, 1, 2, "%s", item1 );
 				wrefresh( w16 ); // update the terminal screen	
-				actual=3;
+				digit=3;
 			}
 			else {
 				wattroff( w3, A_STANDOUT );   // Tecla 3
 				sprintf(item1, "%-1s",  list1[3]);
 				mvwprintw( w3, 1, 2, "%s", item1 );
 				wrefresh( w3 ); // update the terminal screen	
-				actual=20;	
+				digit=20;	
 			}
 			
 		}
 		else if(ch == 'A' || ch == 'a')        //**********************************Tecla A*********************************
 		{		
-			if(actual!=10) {
+			if(digit!=10) {
 				wattroff( w1, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[1]);    // Tecla 1
 				mvwprintw( w1, 1, 2, "%s", item1 );
@@ -756,19 +755,19 @@ void menureceptor() {
 				sprintf(item1, "%-1s",  list1[13]);
 				mvwprintw( w16, 1, 2, "%s", item1 );
 				wrefresh( w16 ); // update the terminal screen	
-				actual=10;
+				digit=10;
 			}
 			else {
 				wattroff( w4, A_STANDOUT );   // Tecla A
 				sprintf(item1, "%-1s",  list1[10]);
 				mvwprintw( w4, 1, 2, "%s", item1 );
 				wrefresh( w4 ); // update the terminal screen	
-				actual=20;	
+				digit=20;	
 			}			
 		}
 		else if(ch == '4')      //**********************************Tecla 4*********************************
 		{		
-			if(actual!=4) {
+			if(digit!=4) {
 				wattroff( w1, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[1]);    // Tecla 1
 				mvwprintw( w1, 1, 2, "%s", item1 );
@@ -848,19 +847,19 @@ void menureceptor() {
 				sprintf(item1, "%-1s",  list1[13]);
 				mvwprintw( w16, 1, 2, "%s", item1 );
 				wrefresh( w16 ); // update the terminal screen	
-				actual=4;
+				digit=4;
 			}
 			else {
 				wattroff( w5, A_STANDOUT );  //    Tecla 4
 				sprintf(item1, "%-1s",  list1[4]);
 				mvwprintw( w5, 1, 2, "%s", item1 );
 				wrefresh( w5 ); // update the terminal screen	
-				actual=20;	
+				digit=20;	
 			}					
 		}
 		else if(ch == '5')  //**********************************Tecla 5*********************************
 		{
-			if(actual!=5) {
+			if(digit!=5) {
 				wattroff( w1, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[1]);    // Tecla 1
 				mvwprintw( w1, 1, 2, "%s", item1 );
@@ -940,19 +939,19 @@ void menureceptor() {
 				sprintf(item1, "%-1s",  list1[13]);
 				mvwprintw( w16, 1, 2, "%s", item1 );
 				wrefresh( w16 ); // update the terminal screen	
-				actual=5;
+				digit=5;
 			}
 			else {
 				wattroff( w6, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[5]);
 				mvwprintw( w6, 1, 2, "%s", item1 );
 				wrefresh( w6 ); // update the terminal screen
-				actual=20;		
+				digit=20;		
 			}
 		}
 		else if(ch == '6')  //**********************************Tecla 6 *********************************
 		{
-			if(actual!=6) {
+			if(digit!=6) {
 				wattroff( w1, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[1]);    // Tecla 1
 				mvwprintw( w1, 1, 2, "%s", item1 );
@@ -1032,19 +1031,19 @@ void menureceptor() {
 				sprintf(item1, "%-1s",  list1[13]);
 				mvwprintw( w16, 1, 2, "%s", item1 );
 				wrefresh( w16 ); // update the terminal screen	
-				actual=6;
+				digit=6;
 			}
 			else {
 				wattroff( w7, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[6]);
 				mvwprintw( w7, 1, 2, "%s", item1 );
 				wrefresh( w7 ); // update the terminal screen
-				actual=20;		
+				digit=20;		
 			}
 		}
 		else if(ch == 'B' || ch == 'b')  //**********************************Tecla B *********************************
 		{
-			if(actual!=11) {
+			if(digit!=11) {
 				wattroff( w1, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[1]);    // Tecla 1
 				mvwprintw( w1, 1, 2, "%s", item1 );
@@ -1124,19 +1123,19 @@ void menureceptor() {
 				sprintf(item1, "%-1s",  list1[13]);
 				mvwprintw( w16, 1, 2, "%s", item1 );
 				wrefresh( w16 ); // update the terminal screen	
-				actual=11;
+				digit=11;
 			}
 			else {
 				wattroff( w8, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[11]);
 				mvwprintw( w8, 1, 2, "%s", item1 );
 				wrefresh( w8 ); // update the terminal screen
-				actual=20;		
+				digit=20;		
 			}
 		}
 		else if(ch == '7')  //**********************************Tecla 7 *********************************
 		{
-			if(actual!=7) {
+			if(digit!=7) {
 				wattroff( w1, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[1]);    // Tecla 1
 				mvwprintw( w1, 1, 2, "%s", item1 );
@@ -1216,19 +1215,19 @@ void menureceptor() {
 				sprintf(item1, "%-1s",  list1[13]);
 				mvwprintw( w16, 1, 2, "%s", item1 );
 				wrefresh( w16 ); // update the terminal screen	
-				actual=7;
+				digit=7;
 			}
 			else {
 				wattroff( w9, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[7]);
 				mvwprintw( w9, 1, 2, "%s", item1 );
 				wrefresh( w9 ); // update the terminal screen
-				actual=20;		
+				digit=20;		
 			}
 		}
 		else if(ch == '8')  //**********************************Tecla 8 *********************************
 		{
-			if(actual!=8) {
+			if(digit!=8) {
 				wattroff( w1, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[1]);    // Tecla 1
 				mvwprintw( w1, 1, 2, "%s", item1 );
@@ -1308,19 +1307,19 @@ void menureceptor() {
 				sprintf(item1, "%-1s",  list1[13]);
 				mvwprintw( w16, 1, 2, "%s", item1 );
 				wrefresh( w16 ); // update the terminal screen	
-				actual=8;
+				digit=8;
 			}
 			else {
 				wattroff( w10, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[8]);
 				mvwprintw( w10, 1, 2, "%s", item1 );
 				wrefresh( w10 ); // update the terminal screen
-				actual=20;		
+				digit=20;		
 			}	
 		}
 		else if(ch == '9')  //**********************************Tecla 9 *********************************
 		{
-			if(actual!=9) {
+			if(digit!=9) {
 				wattroff( w1, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[1]);    // Tecla 1
 				mvwprintw( w1, 1, 2, "%s", item1 );
@@ -1400,19 +1399,19 @@ void menureceptor() {
 				sprintf(item1, "%-1s",  list1[13]);
 				mvwprintw( w16, 1, 2, "%s", item1 );
 				wrefresh( w16 ); // update the terminal screen	
-				actual=9;
+				digit=9;
 			}
 			else {
 				wattroff( w11, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[9]);
 				mvwprintw( w11, 1, 2, "%s", item1 );
 				wrefresh( w11 ); // update the terminal screen
-				actual=20;		
+				digit=20;		
 			}	
 		}
 		else if(ch == 'C' || ch == 'c')  //**********************************Tecla C *********************************
 		{
-			if(actual!=12) {
+			if(digit!=12) {
 				wattroff( w1, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[1]);    // Tecla 1
 				mvwprintw( w1, 1, 2, "%s", item1 );
@@ -1492,19 +1491,19 @@ void menureceptor() {
 				sprintf(item1, "%-1s",  list1[13]);
 				mvwprintw( w16, 1, 2, "%s", item1 );
 				wrefresh( w16 ); // update the terminal screen	
-				actual=12;
+				digit=12;
 			}
 			else {
 				wattroff( w12, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[12]);
 				mvwprintw( w12, 1, 2, "%s", item1 );
 				wrefresh( w12 ); // update the terminal screen
-				actual=20;		
+				digit=20;		
 			}				
 		}
 		else if(ch == '*')  //**********************************Tecla * *********************************
 		{
-			if(actual!=14) {
+			if(digit!=14) {
 				wattroff( w1, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[1]);    // Tecla 1
 				mvwprintw( w1, 1, 2, "%s", item1 );
@@ -1584,19 +1583,19 @@ void menureceptor() {
 				sprintf(item1, "%-1s",  list1[13]);
 				mvwprintw( w16, 1, 2, "%s", item1 );
 				wrefresh( w16 ); // update the terminal screen	
-				actual=14;
+				digit=14;
 			}
 			else {
 				wattroff( w13, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[14]);
 				mvwprintw( w13, 1, 2, "%s", item1 );
 				wrefresh( w13 ); // update the terminal screen
-				actual=20;		
+				digit=20;		
 			}				
 		}
 		else if(ch == '0')  //**********************************Tecla 0 *********************************
 		{
-			if(actual!=0) {
+			if(digit!=0) {
 				wattroff( w1, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[1]);    // Tecla 1
 				mvwprintw( w1, 1, 2, "%s", item1 );
@@ -1676,19 +1675,19 @@ void menureceptor() {
 				sprintf(item1, "%-1s",  list1[13]);
 				mvwprintw( w16, 1, 2, "%s", item1 );
 				wrefresh( w16 ); // update the terminal screen	
-				actual=0;
+				digit=0;
 			}
 			else {
 				wattroff( w14, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[0]);
 				mvwprintw( w14, 1, 2, "%s", item1 );
 				wrefresh( w14 ); // update the terminal screen
-				actual=20;		
+				digit=20;		
 			}
 		}
 		else if(ch == '#')  //**********************************Tecla # *********************************
 		{
-			if(actual!=15) {
+			if(digit!=15) {
 				wattroff( w1, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[1]);    // Tecla 1
 				mvwprintw( w1, 1, 2, "%s", item1 );
@@ -1768,19 +1767,19 @@ void menureceptor() {
 				sprintf(item1, "%-1s",  list1[13]);
 				mvwprintw( w16, 1, 2, "%s", item1 );
 				wrefresh( w16 ); // update the terminal screen	
-				actual=15;
+				digit=15;
 			}
 			else {
 				wattroff( w15, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[15]);
 				mvwprintw( w15, 1, 2, "%s", item1 );
 				wrefresh( w15 ); // update the terminal screen
-				actual=20;		
+				digit=20;		
 			}			
 		}
 		else if(ch == 'D' || ch == 'd')  //**********************************Tecla D *********************************
 		{
-			if(actual!=13) {
+			if(digit!=13) {
 				wattroff( w1, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[1]);    // Tecla 1
 				mvwprintw( w1, 1, 2, "%s", item1 );
@@ -1860,18 +1859,19 @@ void menureceptor() {
 				sprintf(item1, "%-1s",  list1[13]);
 				mvwprintw( w16, 1, 2, "%s", item1 );
 				wrefresh( w16 ); // update the terminal screen	
-				actual=13;
+				digit=13;
 			}
 			else {
 				wattroff( w16, A_STANDOUT );
 				sprintf(item1, "%-1s",  list1[13]);
 				mvwprintw( w16, 1, 2, "%s", item1 );
 				wrefresh( w16 ); // update the terminal screen
-				actual=20;	
+				digit=20;	
 			}	
-		}				
+		}		
+		set_station();		
 	}
-	actual=20;
+	digit=20;
     delwin( w1 );
     delwin( w2 );
     delwin( w3 );
@@ -1889,9 +1889,9 @@ void menureceptor() {
     delwin( w15 );
     delwin( w16 );
     endwin();
-
 	
 }
+
 void menutransmisor() {
      
     //initscr(); // initialize Ncurses
@@ -2441,7 +2441,6 @@ void menutransmisor() {
 	
 }
 
-
 void* menu() {
      
     WINDOW *w;
@@ -2533,8 +2532,6 @@ void* menu() {
     endwin();
     pthread_exit(NULL);
 }
-
-
 
 
 void gen_tones(float **buffer, int buffer_size)

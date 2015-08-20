@@ -21,7 +21,6 @@ float **buffer_22562;
 float **buffer_33331;
 float **buffer_44100;
 int ch, ch1;
-int digit;
 int mode;
 int durationdefaultsize;
 int BUFFER_LEN;

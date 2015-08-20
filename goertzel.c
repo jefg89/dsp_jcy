@@ -30,32 +30,33 @@ float goertzel(int N,int Ft, float* input) {
     power = (q2 *q2 + q1 * q1 - cosine * q1 * q2) / scalingFactor;
     return power;
 }
+
 void *finding_freq() {
 	usleep(100000);
 	while(ch1) {
 		pthread_mutex_lock(&mutex_f);
 		#pragma omp parallel
 		{
-			g1 = goertzel(BUFFER_LEN, freq_up, buffer_f);
-			g2 = goertzel(BUFFER_LEN, freq_down, buffer_f);
+			g1 = goertzel(2048, freq_up, buffer_f);
+			g2 = goertzel(2048, freq_down, buffer_f);
 		}
-		//printf("%d   %d Aparecio\n", g1, g2);
+		//printf("%d   %d  %d Aparecio\n", g1, g2, digit);
 		if ((g1>TH) & 
 		   (g2>TH)){
 			if(found) {
 				printf("Digito %d encontrado\n", digit);
 				found = 0;
 			}
-			else {
-				found = 1;
-			}
+		}
+		else {
+			found = 1;
 		}
 		pthread_mutex_unlock(&mutex_f);
 		pthread_mutex_lock(&mutex_s);
 		#pragma omp parallel
 		{
-			g3 = goertzel(BUFFER_LEN, freq_up, buffer_s);
-			g4 = goertzel(BUFFER_LEN, freq_down, buffer_s);
+			g3 = goertzel(2048, freq_up, buffer_s);
+			g4 = goertzel(2048, freq_down, buffer_s);
 		}
 		//printf("%d   %d Aparecio\n", g3, g4);
 		if ((g3>TH) & 
@@ -64,14 +65,14 @@ void *finding_freq() {
 				printf("Digito %d encontrado\n", digit);
 				found = 0;
 			}
-			else {
-				found = 1;
-			}
+		}
+		else {
+			found = 1;
 		}
 		pthread_mutex_unlock(&mutex_s);
 	}
-	pthread_exit(NULL);
 }
+
 
 void *write_() {
 	usleep(100000);
@@ -79,9 +80,9 @@ void *write_() {
 	{	
 		pthread_mutex_lock(&mutex_w1);
 	
-		(void) snd_pcm_writei(handle_w, buffer_f, BUFFER_LEN);
+		(void) snd_pcm_writei(handle_w, buffer_f, 2048);
 		pthread_mutex_unlock(&mutex_w1); 
-		(void) snd_pcm_writei(handle_w, buffer_s, BUFFER_LEN);
+		(void) snd_pcm_writei(handle_w, buffer_s, 2048);
 
 	}
 }
@@ -137,7 +138,7 @@ void set_station() {
             freq_up = 1477; freq_down = 941;
             break;
         default:   /*Any*/       
-            freq_up = 0; freq_down = 0;
+            freq_up = 10000; freq_down = 10000;
             break;
 	}
 }

@@ -6,11 +6,11 @@
 #include <omp.h>
 #define BUFFER_LEN 1024
 
-#define TH 50
+#define TH 100
 
 int ch, ch1;
-float buffer_f [BUFFER_LEN];
-float buffer_s [BUFFER_LEN];
+float buffer_f [2048];
+float buffer_s [2048];
 int freq_up, freq_down;
 snd_pcm_t *handle_w;
 snd_pcm_t *handle_r;
