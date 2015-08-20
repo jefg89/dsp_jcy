@@ -20,6 +20,7 @@ int digit;
 int sync_;
 int num_det;
 int dial_num[8];
+clock_t start, end;
 int num_jef[8];
 
 pthread_t tkc, thread1, thread2;

@@ -27,9 +27,9 @@ int main(void)
     num_jef[7] = 2;
 	digit = num_jef[0];
 
-/*	system("echo 17 > /sys/class/gpio/export");
+	system("echo 17 > /sys/class/gpio/export");
 	system("echo out > /sys/class/gpio/gpio17/direction");
-	system("echo 1 > /sys/class/gpio/gpio17/value");*/
+	system("echo 1 > /sys/class/gpio/gpio17/value");
     
 for(j = 0; j < 1024; j++) {
 		buffer_null[j] = 0;
@@ -166,7 +166,7 @@ for(j = 0; j < 1024; j++) {
 		
 	}
 	
-	//system("echo 17 > /sys/class/gpio/unexport");
+	system("echo 17 > /sys/class/gpio/unexport");
 
     return 0;
 }

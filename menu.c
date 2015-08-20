@@ -1869,6 +1869,7 @@ void menureceptor() {
 				digit=20;	
 			}	
 		}		
+		start = clock();
 		set_station();		
 	}
 	digit=20;

@@ -31,7 +31,6 @@ float goertzel(int N,int Ft, float* input) {
 }
 
 void *finding_freq() {
-	clock_t start, end;
 	double elapsed;
 	int err;
 	usleep(100000);
@@ -48,7 +47,7 @@ void *finding_freq() {
 			if(found) {
 				//printf("Digito %f encontrado\n", end);
 				found = 0;
-				//system("echo 0 > /sys/class/gpio/gpio17/value");
+				system("echo 0 > /sys/class/gpio/gpio17/value");
 				dial_num[num_det] = num_jef[num_det];
 				num_det++;
 				digit = num_jef[num_det];
@@ -58,7 +57,7 @@ void *finding_freq() {
 		}
 		else {
 			found = 1;
-			//system("echo 1 > /sys/class/gpio/gpio17/value");
+			system("echo 1 > /sys/class/gpio/gpio17/value");
 		}
 		pthread_mutex_unlock(&mutex_f);
 		pthread_mutex_lock(&mutex_s);
@@ -72,7 +71,7 @@ void *finding_freq() {
 			if(found) {
 				//printf("Digito %f encontrado\n", end);
 				found = 0;
-				//system("echo 0 > /sys/class/gpio/gpio17/value");
+				system("echo 0 > /sys/class/gpio/gpio17/value");
 				dial_num[num_det] = num_jef[num_det];
 				num_det++;
 				digit = num_jef[num_det];
@@ -82,7 +81,7 @@ void *finding_freq() {
 		}
 		else {
 			found = 1;
-			//system("echo 1 > /sys/class/gpio/gpio17/value");
+			system("echo 1 > /sys/class/gpio/gpio17/value");
 		}
 		pthread_mutex_unlock(&mutex_s);
 		end = clock();
@@ -123,6 +122,7 @@ void *write_() {
 	usleep(100000);
 	while((mode==0) & (ch1 != 'q'))
 	{	
+		system("echo 0 > /sys/class/gpio/gpio17/value");
 		pthread_mutex_lock(&mutex_w1);
 		(void) snd_pcm_writei(handle_w, buffer_f, 2048);
 		pthread_mutex_unlock(&mutex_w1); 
@@ -130,6 +130,7 @@ void *write_() {
 
 	}
 	snd_pcm_close(handle_w);
+	system("echo 1 > /sys/class/gpio/gpio17/value");
 	usleep(100000);
 }
 
