@@ -44,12 +44,14 @@ void *finding_freq() {
 		if ((g1>TH) & 
 		   (g2>TH)){
 			if(found) {
-				printf("Digito %d encontrado\n", digit);
+				//printf("Digito %d encontrado\n", digit);
 				found = 0;
+				system("echo 0 > /sys/class/gpio/gpio17/value");
 			}
 		}
 		else {
 			found = 1;
+			system("echo 1 > /sys/class/gpio/gpio17/value");
 		}
 		pthread_mutex_unlock(&mutex_f);
 		pthread_mutex_lock(&mutex_s);
@@ -62,15 +64,18 @@ void *finding_freq() {
 		if ((g3>TH) & 
 		   (g4>TH)){
 			if(found) {
-				printf("Digito %d encontrado\n", digit);
+				//printf("Digito %d encontrado\n", digit);
 				found = 0;
+				system("echo 0 > /sys/class/gpio/gpio17/value");
 			}
 		}
 		else {
 			found = 1;
+			system("echo 1 > /sys/class/gpio/gpio17/value");
 		}
 		pthread_mutex_unlock(&mutex_s);
 	}
+
 }
 
 

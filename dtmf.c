@@ -20,9 +20,13 @@ int main(void)
     send = 0;
     Fs = 44100;     //sampling frequency
     durationdefaultsize = 0;
-    mode = 1;
-  
-    for(j = 0; j < 1024; j++) {
+    mode = 2;
+  	
+	system("echo 17 > /sys/class/gpio/export");
+	system("echo out > /sys/class/gpio/gpio17/direction");
+	system("echo 1 > /sys/class/gpio/gpio17/value");
+    
+for(j = 0; j < 1024; j++) {
 		buffer_null[j] = 0;
 	}
 	buffer_2048 = (float **) malloc(sizeof(float*) * 16);
@@ -46,6 +50,8 @@ int main(void)
 	
 	set_station();
 
+	pthread_create( &thread1, NULL, finding_freq, NULL);
+
 	pthread_create(&tkc, NULL, menu, NULL);
 	while (ch1 != 'q') {
 		
@@ -66,7 +72,8 @@ int main(void)
 
 
 			}
-			while(mode & ch1 != 'q') {
+			while((mode==1) & (ch1 != 'q')) {
+				//printf("entramos del while enviar \n");
 				if(send){
 					switch( durationdefaultsize ) {
 						case 0:
@@ -91,7 +98,9 @@ int main(void)
 				}
 				else (void) snd_pcm_writei(handle_w, buffer_null, 1024);    //sending values to sound driver
 			}
+			
 			snd_pcm_close(handle_w);
+			usleep(50000);
 			//sleep(1);
 		
 		
@@ -128,10 +137,11 @@ int main(void)
 			}*/
 			
 			
-			pthread_create( &thread1, NULL, finding_freq, NULL);
+			
 			//pthread_create( &thread2, NULL, write_, NULL);
 			
-			while(!mode & ch1 != 'q') { 
+			while((mode==0) & (ch1 != 'q')) { 
+				//printf("entramos del while recibido \n");
 				pthread_mutex_lock(&mutex_f);
 				pthread_mutex_unlock(&mutex_s);
 				//pthread_mutex_lock(&mutex_w1);		
@@ -143,10 +153,15 @@ int main(void)
 
 			}
 			snd_pcm_close(handle_r);
+			usleep(50000);
 			//snd_pcm_close(handle_w);
 			//sleep(1);
+			//printf("salimos del while recibido \n");
 		
 	}
+	
+	system("echo 17 > /sys/class/gpio/unexport");
+
     return 0;
 }
  

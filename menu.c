@@ -2499,6 +2499,7 @@ void* menu() {
 								keypad( w, FALSE ); // enable keyboard input for the window.
 								mode = 1;
 								menutransmisor();
+								mode=2;
 								clear();   // Clean the environment ncurses
 								refresh();
 								box( w, 0, 0 ); // Draw again the main windows
@@ -2509,6 +2510,7 @@ void* menu() {
 								keypad( w, FALSE ); // enable keyboard input for the window.
 								mode = 0;
 								menureceptor();
+								mode=2;
 								clear();   // Clean the environment ncurses
 								refresh();
 								box( w, 0, 0 ); // Draw again the main windows
@@ -2516,6 +2518,7 @@ void* menu() {
 								keypad( w, TRUE ); // enable keyboard input for the window. 
 							}
 							else if(f==3){
+								ch1 = 'q';
 								goto QUITA;
 							}
                             break;

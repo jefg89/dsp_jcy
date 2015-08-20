@@ -7,7 +7,7 @@
 #define BUFFER_LEN 1024
 
 #define TH 100
-
+int mode;
 int ch, ch1;
 float buffer_f [2048];
 float buffer_s [2048];
